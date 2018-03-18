@@ -5,7 +5,7 @@ mongoose.Promise = global.Promise;
 // This file empties the Chores collection and inserts the chores below
 
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/reactchorelist",
+  process.env.MONGODB_URI || "mongodb://localhost/testreactchorelist",
   {
     useMongoClient: true
   }
