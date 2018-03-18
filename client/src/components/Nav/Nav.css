@@ -1,0 +1,9 @@
+/* final determination of background will decide on presence of border and color of font */
+a {
+    color: white;
+    /* border: 2px solid black; */
+}
+
+a:hover {
+    color: yellowgreen;
+}

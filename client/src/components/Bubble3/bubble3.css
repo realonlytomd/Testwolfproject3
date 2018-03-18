@@ -1,0 +1,10 @@
+.solid3 {
+    border-style: solid;
+    border-color: whitesmoke;
+    height: 25px;
+    width: 25px;
+    background-color: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0;
+}
