@@ -12,8 +12,10 @@ import Nav from "../../components/Nav";
 class Users extends Component {
   state = {
     users: [],
+    email: "",
     username: "",
-    password: ""
+    password: "",
+    confirmpassword: ""
   };
 
   componentDidMount() {
@@ -25,7 +27,7 @@ class Users extends Component {
   loadUsers = () => {
     API.getUsers()
       .then(res =>
-        this.setState({ users: res.data, username: "", password: "" })
+        this.setState({ users: res.data, email: "", username: "", password: "", confirmpassword: "" })
       )
       .catch(err => console.log(err));
   };
@@ -45,11 +47,12 @@ class Users extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.username && this.state.password) {
+    if (this.state.email && this.state.username && this.state.password && this.state.confirmpassword) {
       API.saveUser({
+        email: this.state.email,
         username: this.state.username,
-        password: this.state.password
-        
+        password: this.state.password,
+        confirmpassword: this.state.confirmpassword
       })
         .then(res => this.loadUsers())
         .catch(err => console.log(err));
@@ -61,24 +64,24 @@ class Users extends Component {
       <Container fluid>
         <Nav />
         <Row>
-          <Col size="md-6 md-offset-3">
+          <Col size="md-6">
             <Jumbotron>
               <h1 className="wow rubberBand" data-wow-delay="3.0s">User Login</h1>
             </Jumbotron>
             <form>
               <Input
-                value={this.state.username}
+                value={this.state.logusername}
                 onChange={this.handleInputChange}
-                name="username"
-                placeholder="User Name (required)"
+                name="logusername"
+                placeholder="Username (required)"
               />
               <Input
-                value={this.state.password}
+                value={this.state.logpassword}
                 onChange={this.handleInputChange}
-                name="password"
+                name="logpassword"
                 placeholder="Password (required)"
               />
-              {!(this.state.username && this.state.password) ? (
+              {!(this.state.logusername && this.state.logpassword) ? (
                 <FormBtn
                   disabled
                 >
@@ -90,9 +93,63 @@ class Users extends Component {
                 >
                   Click to Login
                 </FormBtnNo>
-                )}
+              )}
             </form>
           </Col>
+          <Col size="md-6">
+            <Jumbotron>
+              <h1 className="wow rubberBand" data-wow-delay="3.0s">Create New User</h1>
+            </Jumbotron>
+            <form>
+              <Input
+                value={this.state.email}
+                onChange={this.handleInputChange}
+                name="email"
+                placeholder="Email (required)"
+              />
+              <Input
+                value={this.state.username}
+                onChange={this.handleInputChange}
+                name="username"
+                placeholder="Username (required)"
+              />
+              <Input
+                value={this.state.password}
+                onChange={this.handleInputChange}
+                name="password"
+                placeholder="Password (required)"
+              />
+              <Input
+                value={this.state.confirmpassword}
+                onChange={this.handleInputChange}
+                name="confirmpassword"
+                placeholder="Confirm Password (required)"
+              />
+              {!(this.state.email && this.state.username && this.state.password && this.state.confirmpassword) ? (
+                  <FormBtn
+                   disabled
+                  >
+                    Fill in the Forms!
+                  </FormBtn>
+                ) : (
+                  !(this.state.password === this.state.confirmpassword) ? (
+                    <FormBtn
+                      disabled
+                    >
+                      Passwords Do Not Match!
+                    </FormBtn>
+                  ) : (
+                  <FormBtnNo
+                    onClick={this.handleFormSubmit}
+                  >
+                    Create New User
+                  </FormBtnNo>
+                )
+              )}
+            </form>
+          </Col>
+        </Row>
+        <Row>
           <Col size="md-8 sm-12 md-offset-2">
             {this.state.users.length ? (
               <Jumbotron>

@@ -16,7 +16,6 @@ const App = () =>
         <Route exact path="/users" component={Users} />
         <Route exact path="/chores" component={Chores} />
         <Route exact path="/chores/:id" component={Detail} />   
-        <Route exact path="/users" component={Users} />
         <Route exact path="/users/:id" component={DetailUser} />
         <Route component={NoMatch} />
       </Switch>
