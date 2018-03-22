@@ -19,7 +19,7 @@ class Users extends Component {
   };
 
   componentDidMount() {
-    this.loadUsers();
+   // this.loadUsers();
     const wow = new WOW.WOW();
     wow.init();
   }
@@ -47,7 +47,6 @@ class Users extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.email && this.state.username && this.state.password && this.state.confirmpassword) {
       API.saveUser({
         email: this.state.email,
         username: this.state.username,
@@ -56,8 +55,24 @@ class Users extends Component {
       })
         .then(res => this.loadUsers())
         .catch(err => console.log(err));
-    }
   };
+
+  handleFormSubmit2 = event => {
+    event.preventDefault();
+      API.getUserUsername({
+        username: this.state.logusername
+      })
+        .then(res =>
+          this.setState({ users: res.data, email: "", username: "", password: "", confirmpassword: ""})
+        )
+        .catch(err => console.log(err));
+    };
+      
+        
+        // {(this.state.logpassword === this.state.password) ? (
+        //   this.setState({ users: res.data, email: "", username: "", password: "", confirmpassword: "" })
+        // ) : (<h3>Wrong password</h3>)}
+  
 
   render() {
     return (
@@ -89,7 +104,7 @@ class Users extends Component {
                 </FormBtn>
                 ) : (
                 <FormBtnNo
-                  onClick={this.handleFormSubmit}
+                  onClick={this.handleFormSubmit2}
                 >
                   Click to Login
                 </FormBtnNo>

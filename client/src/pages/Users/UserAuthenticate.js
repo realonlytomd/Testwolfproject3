@@ -32,6 +32,14 @@ class Users extends Component {
       .catch(err => console.log(err));
   };
 
+  loadUser = username => {
+    API.getUserUsername(username)
+      .then(res =>
+        this.setState({ users: res.data, email: "", username: "", password: "", confirmpassword: "" })
+      )
+      .catch(err => console.log(err));
+  };
+
   deleteUser = id => {
     API.deleteUser(id)
       .then(res => this.loadUsers())
@@ -54,8 +62,24 @@ class Users extends Component {
         password: this.state.password,
         confirmpassword: this.state.confirmpassword
       })
+        
         .then(res => this.loadUsers())
         .catch(err => console.log(err));
+    } else if (this.state.logusername && this.state.logpassword) {
+        this.authenticate(this.state.logemail, this.state.logpassword, function (error, user) {
+            if (error || !user) {
+              var err = new Error('Wrong email or password.');
+              err.status = 401;
+              return next(err);
+            } else {
+              req.session.userId = user._id;
+              return res.redirect('/users');
+            }
+          });
+    } else {
+         var err = new Error('All fields required.');
+         err.status = 400;
+         return next(err);
     }
   };
 

@@ -32,5 +32,9 @@ export default {
   // saves a user to the database
   saveUser: function(userData) {
     return axios.post("/api/users", userData);
+  },
+  // gets a specific user with given username
+  getUserUsername: function(username) {
+    return axios.get("/api/users/test/" + username);
   }
 };
